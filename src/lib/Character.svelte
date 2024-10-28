@@ -9,28 +9,39 @@
 
 <div class="character">
 	<div class="input">
-		<label>Name</label>
-		<input type="text" bind:value={charName} oninput={() => name(charName)} />
+		<label for="name">Name</label>
+		<input id="name" type="text" bind:value={charName} oninput={() => name(charName)} />
 	</div>
 	<div class="input">
-		<label>Current Level</label>
-		<input type="number" bind:value={charLevel} oninput={() => level(charLevel)} />
+		<label for="level">Current Level</label>
+		<input id="level" type="number" bind:value={charLevel} oninput={() => level(charLevel)} />
 	</div>
 	<div class="input">
-		<label>Max Level</label>
-		<input type="number" bind:value={charMaxLevel} oninput={() => maxLevel(charMaxLevel)} />
-	</div>
-	<div class="input">
-		<label>start energy</label>
+		<label for="maxLevel">Max Level</label>
 		<input
+			id="maxLevel"
+			type="number"
+			bind:value={charMaxLevel}
+			oninput={() => maxLevel(charMaxLevel)}
+		/>
+	</div>
+	<div class="input">
+		<label for="startEnergy">start energy</label>
+		<input
+			id="startEnergy"
 			type="number"
 			bind:value={charStartEnergy}
 			oninput={() => startEnergy(charStartEnergy)}
 		/>
 	</div>
 	<div class="input">
-		<label>eidolon</label>
-		<input type="number" bind:value={charEidolon} oninput={() => ediolon(charEidolon)} />
+		<label for="eidolon">eidolon</label>
+		<input
+			id="eidolon"
+			type="number"
+			bind:value={charEidolon}
+			oninput={() => ediolon(charEidolon)}
+		/>
 	</div>
 </div>
 

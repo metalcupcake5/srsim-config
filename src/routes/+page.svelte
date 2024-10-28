@@ -2,6 +2,7 @@
 	import YAML from 'yaml';
 	import Character from '$lib/Character.svelte';
 
+	let cycles: number = $state(10);
 	let chars: Char[] = $state([]);
 
 	type Char = {
@@ -11,21 +12,81 @@
 		maxLevel: number;
 		startEnergy: number;
 		eidolon: number;
+		traces: string[];
+		abilities: {
+			attack: number;
+			skill: number;
+			ult: number;
+			talent: number;
+		};
 	};
 
-	function onclick() {
-		chars = [
-			...chars,
-			{
-				id: chars.length + 1,
-				name: 'Character',
-				level: 80,
-				maxLevel: 80,
-				startEnergy: 0,
-				eidolon: 0
+	for (let i = 0; i < 4; i++) {
+		chars.push({
+			id: chars.length + 1,
+			name: 'Character',
+			level: 80,
+			maxLevel: 80,
+			startEnergy: 0,
+			eidolon: 0,
+			traces: [
+				'101',
+				'102',
+				'103',
+				'201',
+				'202',
+				'203',
+				'204',
+				'205',
+				'206',
+				'207',
+				'208',
+				'209',
+				'210'
+			],
+			abilities: {
+				attack: 1,
+				skill: 1,
+				ult: 1,
+				talent: 1
 			}
-		];
+		});
 	}
+
+	// function onclick() {
+	// 	chars = [
+	// 		...chars,
+	// 		{
+	// 			id: chars.length + 1,
+	// 			name: 'Character',
+	// 			level: 80,
+	// 			maxLevel: 80,
+	// 			startEnergy: 0,
+	// 			eidolon: 0,
+	// 			traces: [
+	// 				'101',
+	// 				'102',
+	// 				'103',
+	// 				'201',
+	// 				'202',
+	// 				'203',
+	// 				'204',
+	// 				'205',
+	// 				'206',
+	// 				'207',
+	// 				'208',
+	// 				'209',
+	// 				'210'
+	// 			],
+	// 			abilities: {
+	// 				attack: 1,
+	// 				skill: 1,
+	// 				ult: 1,
+	// 				talent: 1
+	// 			}
+	// 		}
+	// 	];
+	// }
 
 	function remove(index: number) {
 		chars.splice(index, 1);
@@ -33,7 +94,7 @@
 
 	const settings = $derived({
 		settings: {
-			cycle_limit: 10,
+			cycle_limit: parseInt(cycles),
 			ttk_mode: true
 		},
 		characters: chars.map((c: Char) => {
@@ -42,7 +103,9 @@
 				level: c.level,
 				max_level: c.maxLevel,
 				start_energy: c.startEnergy,
-				eidols: c.eidolon
+				eidols: c.eidolon,
+				traces: c.traces,
+				abilities: c.abilities
 			};
 		}),
 		enemies: [
@@ -58,6 +121,11 @@
 	});
 </script>
 
+<div>
+	<label for="cycles">Cycles</label>
+	<input id="cycles" type="number" bind:value={cycles} />
+</div>
+
 <div class="characters">
 	{#each chars as c, i}
 		<div>
@@ -68,7 +136,7 @@
 				startEnergy={(e: number) => (c.startEnergy = e)}
 				eidolon={(e: number) => (c.eidolon = e)}
 			/>
-			<button onclick={() => remove(i)}>Remove Character</button>
+			<button disabled onclick={() => remove(i)}>Remove Character</button>
 		</div>
 	{/each}
 </div>
