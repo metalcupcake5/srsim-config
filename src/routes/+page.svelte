@@ -94,7 +94,7 @@
 
 	const settings = $derived({
 		settings: {
-			cycle_limit: parseInt(cycles),
+			cycle_limit: cycles,
 			ttk_mode: true
 		},
 		characters: chars.map((c: Char) => {
