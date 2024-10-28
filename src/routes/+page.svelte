@@ -19,6 +19,12 @@
 			ult: number;
 			talent: number;
 		};
+		lightCone: {
+			name: string;
+			level: number;
+			maxLevel: number;
+			superimposition: number;
+		};
 	};
 
 	for (let i = 0; i < 4; i++) {
@@ -49,6 +55,12 @@
 				skill: 1,
 				ult: 1,
 				talent: 1
+			},
+			lightCone: {
+				name: 'light_cone',
+				level: 80,
+				maxLevel: 80,
+				superimposition: 1
 			}
 		});
 	}
@@ -105,7 +117,13 @@
 				start_energy: c.startEnergy,
 				eidols: c.eidolon,
 				traces: c.traces,
-				abilities: c.abilities
+				abilities: c.abilities,
+				light_cone: {
+					key: c.lightCone.name,
+					level: c.lightCone.level,
+					max_level: c.lightCone.maxLevel,
+					imposition: c.lightCone.superimposition
+				}
 			};
 		}),
 		enemies: [
@@ -130,11 +148,15 @@
 	{#each chars as c, i}
 		<div>
 			<Character
-				name={(n: string) => (c.name = n)}
-				level={(l: number) => (c.level = l)}
-				maxLevel={(l: number) => (c.maxLevel = l)}
-				startEnergy={(e: number) => (c.startEnergy = e)}
-				eidolon={(e: number) => (c.eidolon = e)}
+				charName={(n: string) => (c.name = n)}
+				charLevel={(l: number) => (c.level = l)}
+				charMaxLevel={(l: number) => (c.maxLevel = l)}
+				charStartEnergy={(e: number) => (c.startEnergy = e)}
+				charEidolon={(e: number) => (c.eidolon = e)}
+				lcName={(n: string) => (c.lightCone.name = n)}
+				lcLevel={(l: number) => (c.lightCone.level = l)}
+				lcMaxLevel={(l: number) => (c.lightCone.maxLevel = l)}
+				lcSuperimposition={(s: number) => (c.lightCone.superimposition = s)}
 			/>
 			<button disabled onclick={() => remove(i)}>Remove Character</button>
 		</div>
