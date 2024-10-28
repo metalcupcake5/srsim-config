@@ -2,9 +2,6 @@
 	import YAML from 'yaml';
 	import Character from '$lib/Character.svelte';
 
-	let cycles: number = $state(10);
-	let chars: Char[] = $state([]);
-
 	type Char = {
 		id: number;
 		name: string;
@@ -26,44 +23,6 @@
 			superimposition: number;
 		};
 	};
-
-	for (let i = 0; i < 4; i++) {
-		chars.push({
-			id: chars.length + 1,
-			name: 'Character',
-			level: 80,
-			maxLevel: 80,
-			startEnergy: 0,
-			eidolon: 0,
-			traces: [
-				'101',
-				'102',
-				'103',
-				'201',
-				'202',
-				'203',
-				'204',
-				'205',
-				'206',
-				'207',
-				'208',
-				'209',
-				'210'
-			],
-			abilities: {
-				attack: 1,
-				skill: 1,
-				ult: 1,
-				talent: 1
-			},
-			lightCone: {
-				name: 'light_cone',
-				level: 80,
-				maxLevel: 80,
-				superimposition: 1
-			}
-		});
-	}
 
 	// function onclick() {
 	// 	chars = [
@@ -104,6 +63,39 @@
 		chars.splice(index, 1);
 	}
 
+	function copy(node: EventTarget) {
+		async function copyText() {
+			const text = document.querySelector('code')?.innerText!!;
+
+			try {
+				await navigator.clipboard.writeText(text);
+
+				node.dispatchEvent(
+					new CustomEvent('copysuccess', {
+						bubbles: true
+					})
+				);
+			} catch (error) {
+				node.dispatchEvent(
+					new CustomEvent('copyerror', {
+						bubbles: true,
+						detail: error
+					})
+				);
+			}
+		}
+
+		node.addEventListener('click', copyText);
+
+		return {
+			destroy() {
+				node.removeEventListener('click', copyText);
+			}
+		};
+	}
+
+	let cycles: number = $state(10);
+	let chars: Char[] = $state([]);
 	const settings = $derived({
 		settings: {
 			cycle_limit: cycles,
@@ -138,35 +130,42 @@
 		]
 	});
 
-	function copy(node: EventTarget) {
-		async function copyText() {
-			const text = document.querySelector('code')?.innerText!!;
-
-			try {
-				await navigator.clipboard.writeText(text);
-
-				node.dispatchEvent(
-					new CustomEvent('copysuccess', {
-						bubbles: true
-					})
-				);
-			} catch (error) {
-				node.dispatchEvent(
-					new CustomEvent('copyerror', {
-						bubbles: true,
-						detail: error
-					})
-				);
+	for (let i = 0; i < 4; i++) {
+		chars.push({
+			id: chars.length + 1,
+			name: 'Character',
+			level: 80,
+			maxLevel: 80,
+			startEnergy: 0,
+			eidolon: 0,
+			traces: [
+				'101',
+				'102',
+				'103',
+				'201',
+				'202',
+				'203',
+				'204',
+				'205',
+				'206',
+				'207',
+				'208',
+				'209',
+				'210'
+			],
+			abilities: {
+				attack: 1,
+				skill: 1,
+				ult: 1,
+				talent: 1
+			},
+			lightCone: {
+				name: 'light_cone',
+				level: 80,
+				maxLevel: 80,
+				superimposition: 1
 			}
-		}
-
-		node.addEventListener('click', copyText);
-
-		return {
-			destroy() {
-				node.removeEventListener('click', copyText);
-			}
-		};
+		});
 	}
 </script>
 
