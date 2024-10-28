@@ -148,15 +148,27 @@
 	{#each chars as c, i}
 		<div>
 			<Character
-				charName={(n: string) => (c.name = n)}
-				charLevel={(l: number) => (c.level = l)}
-				charMaxLevel={(l: number) => (c.maxLevel = l)}
-				charStartEnergy={(e: number) => (c.startEnergy = e)}
-				charEidolon={(e: number) => (c.eidolon = e)}
-				lcName={(n: string) => (c.lightCone.name = n)}
-				lcLevel={(l: number) => (c.lightCone.level = l)}
-				lcMaxLevel={(l: number) => (c.lightCone.maxLevel = l)}
-				lcSuperimposition={(s: number) => (c.lightCone.superimposition = s)}
+				character={(character: {
+					name: string;
+					level: number;
+					maxLevel: number;
+					startEnergy: number;
+					eidolon: number;
+				}) => {
+					c.name = character.name;
+					c.level = character.level;
+					c.maxLevel = character.maxLevel;
+					c.startEnergy = character.startEnergy;
+					c.eidolon = character.eidolon;
+				}}
+				lightcone={(lightcone: {
+					name: string;
+					level: number;
+					maxLevel: number;
+					superimposition: number;
+				}) => {
+					c.lightCone = lightcone;
+				}}
 			/>
 			<button disabled onclick={() => remove(i)}>Remove Character</button>
 		</div>
