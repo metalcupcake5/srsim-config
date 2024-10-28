@@ -137,6 +137,37 @@
 			}
 		]
 	});
+
+	function copy(node: EventTarget) {
+		async function copyText() {
+			const text = document.querySelector('code')?.innerText!!;
+
+			try {
+				await navigator.clipboard.writeText(text);
+
+				node.dispatchEvent(
+					new CustomEvent('copysuccess', {
+						bubbles: true
+					})
+				);
+			} catch (error) {
+				node.dispatchEvent(
+					new CustomEvent('copyerror', {
+						bubbles: true,
+						detail: error
+					})
+				);
+			}
+		}
+
+		node.addEventListener('click', copyText);
+
+		return {
+			destroy() {
+				node.removeEventListener('click', copyText);
+			}
+		};
+	}
 </script>
 
 <div>
@@ -174,7 +205,8 @@
 		</div>
 	{/each}
 </div>
-<button disabled={chars.length > 3} {onclick}>add char</button>
+<button disabled={chars.length > 3} {onclick}>add char</button><br />
+<button use:copy>Copy</button>
 <pre><code>{YAML.stringify(settings)}</code></pre>
 
 <style>
