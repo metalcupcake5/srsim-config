@@ -1,11 +1,64 @@
 <script lang="ts">
 	let { character, lightcone }: any = $props();
-	let char = $state({
+
+	let relics = $state({
+		head: {
+			set: 'no set',
+			main: {
+				stat: 'hp',
+				amount: 100
+			},
+			subs: []
+		},
+		hands: {
+			set: 'no set',
+			main: {
+				stat: 'atk',
+				amount: 100
+			},
+			subs: []
+		},
+		body: {
+			set: 'no set',
+			main: {
+				stat: 'crit_rate',
+				amount: 100
+			},
+			subs: []
+		},
+		feet: {
+			set: 'no set',
+			main: {
+				stat: 'speed',
+				amount: 100
+			},
+			subs: []
+		},
+		sphere: {
+			set: 'no set',
+			main: {
+				stat: 'atk',
+				amount: 100
+			},
+			subs: []
+		},
+		rope: {
+			set: 'no set',
+			main: {
+				stat: 'atk',
+				amount: 100
+			},
+			subs: []
+		}
+	});
+
+	let char = $derived({
 		name: 'character',
 		level: 80,
 		maxLevel: 80,
 		startEnergy: 80,
-		eidolon: 0
+		eidolon: 0,
+		relics
 	});
 
 	let lc = $state({
@@ -72,6 +125,21 @@
 				bind:value={lc.superimposition}
 				oninput={() => lightcone(lc)}
 			/>
+		</div>
+	</div>
+	<h3>relics</h3>
+	<div class="container">
+		<h5>head</h5>
+		<div class="inputs">
+			<div class="input">
+				<label for="relic1Set">set</label>
+				<input
+					id="relic1Set"
+					type="string"
+					bind:value={relics.head.set}
+					oninput={() => character(char)}
+				/>
+			</div>
 		</div>
 	</div>
 </div>
