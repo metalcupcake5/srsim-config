@@ -2,10 +2,12 @@
 	import YAML from 'yaml';
 	let { form } = $props();
 
+	import characters from '$lib/characters.json';
+
 	let current = $state(form ? form?.charList[0] : 'no data');
 
-	function setCurrent(id: number) {
-		current = form.charList.find((c) => c.name == id);
+	function setCurrent(name: string) {
+		current = form.charList.find((c) => c.name == name);
 	}
 
 	function copy(node: EventTarget) {

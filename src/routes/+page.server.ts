@@ -1,6 +1,9 @@
 export const load = async ({ fetch }) => {};
 
 import type { Actions } from './$types';
+import characters from '$lib/characters.json';
+import relicStats from '$lib/relic_stats.json';
+import TextMap from '$lib/TextMapEN.json';
 
 export const actions = {
 	default: async ({ request }) => {
@@ -17,7 +20,8 @@ export const actions = {
 
 		for (const c of data.detailInfo.avatarDetailList) {
 			const char = {
-				name: c.avatarId,
+				name: characters[c.avatarId],
+				id: c.avatarId,
 				level: c.level,
 				maxLevel: 20 + c.promotion * 10,
 				startEnergy: 0,
@@ -32,8 +36,8 @@ export const actions = {
 					ult: c.skillTreeList.find((s) => s.pointId % 1000 == 3)?.level ?? 1,
 					talent: c.skillTreeList.find((s) => s.pointId % 1000 == 4)?.level ?? 1
 				},
-				lightCone: {
-					name: 'light_cone',
+				light_cone: {
+					name: TextMap[c.equipment._flat.name].toLowerCase().split(' ').join('_'),
 					level: c.equipment.level,
 					maxLevel: 20 + c.equipment.promotion * 10,
 					superimposition: c.equipment.rank
@@ -42,17 +46,17 @@ export const actions = {
 			for (const r of c.relicList) {
 				const stats = r._flat.props;
 				const relic = {
-					name: 'relic',
+					name: TextMap[r._flat.setName].toLowerCase().split(' ').join('_'),
 					main_stat: {
-						stat: stats[0].type,
-						amount: stats[0].amount
+						stat: relicStats[stats[0].type] ?? stats[0].type,
+						amount: stats[0].value
 					},
 					sub_stats: []
 				};
 				stats.shift();
 				relic.sub_stats = stats.map((e) => {
 					return {
-						stat: e.type,
+						stat: relicStats[e.type] ?? e.type,
 						amount: e.value
 					};
 				});
@@ -60,31 +64,6 @@ export const actions = {
 			}
 			// console.log(char);
 			charList.push(char);
-			// {
-			//     "key": "musketeer_of_wild_wheat",
-			//     "main_stat": {
-			//         "stat": "HP_FLAT",
-			//         "amount": 374
-			//     },
-			//     "sub_stats": [
-			//         {
-			//             "stat": "ATK_FLAT",
-			//             "amount": 16
-			//         },
-			//         {
-			//             "stat": "ATK_PERCENT",
-			//             "amount": 0.027
-			//         },
-			//         {
-			//             "stat": "DEF_FLAT",
-			//             "amount": 33
-			//         },
-			//         {
-			//             "stat": "EFFECT_HIT_RATE",
-			//             "amount": 0.034
-			//         }
-			//     ]
-			// },
 		}
 
 		return { charList };
