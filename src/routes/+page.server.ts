@@ -22,21 +22,9 @@ export const actions = {
 				maxLevel: 20 + c.promotion * 10,
 				startEnergy: 0,
 				eidolon: c.rank ?? 0,
-				// traces: [
-				// 	'101',
-				// 	'102',
-				// 	'103',
-				// 	'201',
-				// 	'202',
-				// 	'203',
-				// 	'204',
-				// 	'205',
-				// 	'206',
-				// 	'207',
-				// 	'208',
-				// 	'209',
-				// 	'210'
-				// ],
+				traces: c.skillTreeList
+					.filter((s) => s.pointId.toString()[4] != 0)
+					.map((s) => (s.pointId % 1000).toString()),
 				relics: [],
 				abilities: {
 					attack: c.skillTreeList.find((s) => s.pointId % 1000 == 1)?.level ?? 1,
