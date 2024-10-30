@@ -35,14 +35,16 @@ export const actions = {
 					skill: c.skillTreeList.find((s) => s.pointId % 1000 == 2)?.level ?? 1,
 					ult: c.skillTreeList.find((s) => s.pointId % 1000 == 3)?.level ?? 1,
 					talent: c.skillTreeList.find((s) => s.pointId % 1000 == 4)?.level ?? 1
-				},
-				light_cone: {
+				}
+			};
+			if (c.equipment) {
+				char.light_cone = {
 					name: TextMap[c.equipment._flat.name].toLowerCase().split(' ').join('_'),
 					level: c.equipment.level,
 					maxLevel: 20 + c.equipment.promotion * 10,
 					superimposition: c.equipment.rank
-				}
-			};
+				};
+			}
 			for (const r of c.relicList) {
 				const stats = r._flat.props;
 				const relic = {
